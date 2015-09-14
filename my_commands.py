@@ -27,6 +27,14 @@ def make_arguments_parser():
         '--firefox',
         action='store_true',
         help='Open Mozilla Firefox in private mode')
+    parser.add_argument(
+        '--shutdown',
+        action='store_true',
+        help='Shutdown system, default 1 hour')
+    parser.add_argument(
+        '--memory',
+        action='store_true',
+        help='Show memory usage')
     global args
     args = parser.parse_args()
 
@@ -49,7 +57,11 @@ def main():
     if args.firefox:
         subprocess.getoutput('firefox -private "https://duckduckgo.com/"')
 
+    if args.shutdown:
+        subprocess.getoutput("sudo shutdown -h 60")
 
+    if args.memory:
+        print(subprocess.getoutput("free -h --total"))
 
 
 if __name__ == "__main__":
