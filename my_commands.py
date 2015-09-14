@@ -50,8 +50,7 @@ def main():
         subprocess.getoutput('firefox -private "https://duckduckgo.com/"')
 
 
-# Add scripts of clean
-# Add scripts shoutdown -h n
+
 
 if __name__ == "__main__":
     main()
