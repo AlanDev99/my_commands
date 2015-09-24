@@ -21,20 +21,24 @@ def make_arguments_parser():
         '-b',
         '--battery',
         action='store_true',
-        help='Show porcentage battery')
+        help='show porcentage battery')
     parser.add_argument(
         '-f',
         '--firefox',
         action='store_true',
-        help='Open Mozilla Firefox in private mode')
+        help='open Mozilla Firefox in private mode')
     parser.add_argument(
         '--shutdown',
         action='store_true',
-        help='Shutdown system, default 1 hour')
+        help='shutdown system, default 1 hour')
     parser.add_argument(
         '--memory',
         action='store_true',
-        help='Show memory usage')
+        help='show memory usage')
+    parser.add_argument(
+        '--mount',
+        action='store_true',
+        help='mount all devices')
     global args
     args = parser.parse_args()
 
@@ -50,9 +54,11 @@ def main():
         exit(0)
 
     if args.battery:
-        response = '''upower -i $(upower -e | grep 'BAT') |
+        context = '''upower -i $(upower -e | grep 'BAT') |
                       grep -E "state|to\ full|percentage"'''
-        print(subprocess.getoutput(response))
+        batteryState = subprocess.getoutput(context)
+        output = batteryState if batteryState else "No battery state" 
+        print(output)
 
     if args.firefox:
         subprocess.getoutput('firefox -private "https://duckduckgo.com/"')
@@ -63,6 +69,9 @@ def main():
     if args.memory:
         print(subprocess.getoutput("free -h --total"))
 
+    if args.mount:
+        subprocess.getoutput("sudo mount -a")
+        print("All devices are mounted")
 
 if __name__ == "__main__":
     main()
