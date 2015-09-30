@@ -51,13 +51,13 @@ def main():
     if len(sys.argv) < 2:
         output = "  -h, --help     show help message"
         print(output)
-        exit(0)
+        exit(1)
 
     if args.battery:
         context = '''upower -i $(upower -e | grep 'BAT') |
                       grep -E "state|to\ full|percentage"'''
         batteryState = subprocess.getoutput(context)
-        output = batteryState if batteryState else "No battery state" 
+        output = batteryState if batteryState else "No battery state"
         print(output)
 
     if args.firefox:
